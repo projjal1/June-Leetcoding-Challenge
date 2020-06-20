@@ -1,0 +1,41 @@
+class Solution:
+    def cheap_path(self,src,queue,d,flights,dst):
+        if src==dst:
+            return;
+        else:
+            queue.append(src)
+            get_nodes_adj_src=[]
+            for u,v,price in flights:
+                if u==src and (v not in queue):
+                    get_nodes_adj_src.append(u)
+                    get_hops_src,get_price_src=d[u]
+                    get_hops_dest,get_price_dest=d[v]
+                    
+                    if (get_hops_src+1<get_hops_dest):
+                        d[v]=[get_hops_src+1,get_price_src+price]
+                    elif (get_hops_src+1<=get_hops_dest):
+                        if get_price_src+flights[u][v]<get_price_dest:
+                            d[v]=[get_hops_src+1,get_price_src+price]
+                        else:
+                            continue
+                    else:
+                        continue
+                        
+                else:
+                    continue
+                    
+            for i in get_nodes_adj_src:
+                self.cheap_path(i,queue,d,flights,dst)
+            
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
+        
+        d=dict()
+        for i in range(n):
+            #in format of hops and price from source
+            d[i+1]=[99999,0]
+            
+        d[src]=[0,0]
+        queue=[]
+        
+        self.cheap_path(src,queue,d,flights,dst)
+        print(d)        
