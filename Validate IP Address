@@ -1,0 +1,41 @@
+class Solution:
+    def validIPAddress(self, IP: str) -> str:
+        count_dots=IP.count('.')
+        
+        if count_dots==3:
+            arr=IP.split('.')
+            for each in arr:
+                if len(each)>=2:
+                    if each[0]=='0' or each[0]=='-' or each[0]=='+':
+                        return "Neither"
+                try:
+                    if int(each)>=0 and int(each)<=255:
+                        continue 
+                    else:
+                        return "Neither"
+                except:
+                    return "Neither"
+            return "IPv4"
+        
+        count_dots=IP.count(':')
+        
+        if count_dots==7:
+            arr=IP.split(':')
+            for each in arr:
+                if len(each)<=4:
+                    if len(each)==0:
+                        return "Neither"
+                    for x in each:
+                        if x.isdigit():
+                            continue
+                        if x=='a' or x=='b' or x=='c' or x=='d' or x=='e' or x=='f':
+                            continue
+                        if x=='A' or x=='B' or x=='C' or x=='D' or x=='E' or x=='F':
+                            continue
+                        else:
+                            return "Neither"
+                else:
+                    return "Neither"
+            return "IPv6"
+        
+        return "Neither"                
